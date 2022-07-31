@@ -13,8 +13,14 @@ public class KafkaProducer {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    public void send(String topic, String payload) {
+    public String send(String topic, String payload) {
         LOGGER.info("sending payload='{}' to topic='{}'", payload, topic);
-        kafkaTemplate.send(topic, payload);
+        try{
+            kafkaTemplate.send(topic, payload);
+        }catch(Exception e){
+            LOGGER.error("Error sending payload='{}' to topic='{}'", payload, topic);
+            throw new RuntimeException("Error sending payload='" + payload + "' to topic='" + topic + "'");
+        }
+        return "Message sent";
     }
 }

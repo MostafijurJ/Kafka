@@ -14,7 +14,10 @@ public class KafkaWebController {
 
     @GetMapping("/send")
     public String send(@RequestParam("topic") String topic, @RequestParam("payload") String payload) {
-        kafkaProducer.send(topic, payload);
-        return "Message sent";
+
+        for(int i = 1; i < 1000001; i++) {
+            kafkaProducer.send(topic, payload+" - "+i);
+        }
+        return "Message Sent";
     }
 }
